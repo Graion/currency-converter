@@ -9,16 +9,16 @@ public class Money implements Expression {
 		return new Money(amount, Currency.ARS);
 	}
 
-	private int amount;
+	private double amount;
 	private Currency currency;
 
-	public Money(int amount, Currency currency) {
+	public Money(double amount, Currency currency) {
 		super();
 		this.amount = amount;
 		this.currency = currency;
 	}
 
-	public int amount() {
+	public double amount() {
 		return this.amount;
 	}
 
@@ -35,11 +35,16 @@ public class Money implements Expression {
 	}
 
 	@Override
+	public String toString() {
+		return "Money [amount=" + amount + ", currency=" + currency + "]";
+	}
+	
+	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		double result = 1;
 		result = prime * result + amount;
-		return result;
+		return (int)result;
 	}
 
 	public Sum plus(Money addend) {
@@ -47,7 +52,7 @@ public class Money implements Expression {
 	}
 
 	public Money reduce(Bank bank, Currency to) {
-		int rate = bank.getRate(this.currency, to);
+		double rate = bank.getRate(this.currency, to);
 		return new Money(this.amount / rate, to);
 	}
 
