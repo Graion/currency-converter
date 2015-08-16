@@ -1,6 +1,6 @@
 package com.graion.excercises.CurrencyConverter;
 
-public class Money implements Expression {
+public class Money extends Expression {
 
 	public static Money dollar(int amount) {
 		return new Money(amount, Currency.USD);
@@ -35,18 +35,13 @@ public class Money implements Expression {
 	}
 
 	@Override
-	public String toString() {
-		return "Money [amount=" + amount + ", currency=" + currency + "]";
-	}
-	
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		double result = 1;
 		result = prime * result + amount;
 		return (int)result;
 	}
-
+	
 	public Sum plus(Money addend) {
 		return new Sum(this, addend);
 	}
@@ -58,5 +53,10 @@ public class Money implements Expression {
 
 	public Expression times(int multiplier) {
 		return new Money(this.amount * multiplier, this.currency);
+	}
+
+	@Override
+	public String toString() {
+		return "Money [amount=" + amount + ", currency=" + currency + "]";
 	}
 }

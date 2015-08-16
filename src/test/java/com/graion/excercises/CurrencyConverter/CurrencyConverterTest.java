@@ -25,14 +25,6 @@ public class CurrencyConverterTest extends TestCase
     	bank.addRate(Currency.ARS, Currency.USD, 10);
     	bank.addRate(Currency.USD, Currency.ARS, 0.1);
     }
-
-    public void testMoneyAddition()
-    {
-    	Sum sum = fiveDollars.plus(fiveDollars);
-    	Bank bank = new Bank();
-    	Money reducedSum = bank.convert(sum, Currency.USD);
-    	assertEquals(Money.dollar(10), reducedSum);
-    }
     
     public void testMoneyMultiplication()
     {
@@ -45,6 +37,14 @@ public class CurrencyConverterTest extends TestCase
     	assertNotSame(new Money(5, Currency.USD), new Money(6, Currency.USD));
     	assertEquals(new Money(5, Currency.ARS), new Money(5, Currency.ARS));
     	assertNotSame(new Money(5, Currency.USD), new Money(5, Currency.ARS));
+    }
+    
+    public void testMoneyAddition()
+    {
+    	Sum sum = fiveDollars.plus(fiveDollars);
+    	Bank bank = new Bank();
+    	Money reducedSum = bank.convert(sum, Currency.USD);
+    	assertEquals(Money.dollar(10), reducedSum);
     }
     
     public void testMultiCurrencyAdditionUSD()
@@ -86,5 +86,17 @@ public class CurrencyConverterTest extends TestCase
     {
     	Sum sum = fiveDollars.plus(fiveDollars);
     	assertEquals(Money.dollar(5 + 5).times(3), sum.times(3).reduce(bank, Currency.USD));
+    }
+    
+    public void testSumTimesMultiCurrency()
+    {
+    	assertEquals(Money.pesos(5 * 10 + 10).times(2),
+    			fiveDollars.plus(Money.pesos(10)).times(2).reduce(bank, Currency.ARS));
+    }
+    
+    public void testMultiSums()
+    {
+    	assertEquals(Money.dollar(5 + 50 / 10 + 5),
+    			fiveDollars.plus(Money.pesos(50)).plus(fiveDollars).reduce(bank, Currency.USD));
     }
 }

@@ -1,6 +1,6 @@
 package com.graion.excercises.CurrencyConverter;
 
-public class Sum implements Expression {
+public class Sum extends Expression {
 	
 	private Expression augend;
 	private Expression addend;

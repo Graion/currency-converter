@@ -1,8 +1,11 @@
 package com.graion.excercises.CurrencyConverter;
 
-public interface Expression {
+public abstract class Expression {
 	
-	Money reduce(Bank bank, Currency to);
-	Expression times(int multiplier);
+	abstract Money reduce(Bank bank, Currency to);
+	abstract Expression times(int multiplier);
 	
+	public Expression plus(Expression expression) {
+		return new Sum(this, expression);
+	}
 }
