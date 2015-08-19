@@ -32,11 +32,11 @@ public class CurrencyConverterTest extends TestCase
     	assertEquals(new Money(5 * 4, Currency.USD), fiveDollars.times(4));
     }
     
-    public void testEquality() {
+    public void testMoneyEquality() {
     	assertEquals(new Money(5, Currency.USD), new Money(5, Currency.USD));
-    	assertNotSame(new Money(5, Currency.USD), new Money(6, Currency.USD));
     	assertEquals(new Money(5, Currency.ARS), new Money(5, Currency.ARS));
-    	assertNotSame(new Money(5, Currency.USD), new Money(5, Currency.ARS));
+    	assertFalse(new Money(5, Currency.USD).equals(new Money(6, Currency.USD)));
+    	assertFalse(new Money(5, Currency.USD).equals(new Money(5, Currency.ARS)));
     }
     
     public void testMoneyAddition()
