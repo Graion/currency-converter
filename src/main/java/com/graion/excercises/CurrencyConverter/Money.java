@@ -2,10 +2,10 @@ package com.graion.excercises.CurrencyConverter;
 
 public class Money {
 
-	private int amount;
+	private double amount;
 	private Currency currency;
 
-	public Money(int amount, Currency currency) {
+	public Money(double amount, Currency currency) {
 		this.amount = amount;
 		this.currency = currency;
 	}
@@ -22,10 +22,10 @@ public class Money {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		double result = 1;
 		result = prime * result + amount;
 		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
-		return result;
+		return (int) result;
 	}
 
 	@Override
@@ -42,5 +42,9 @@ public class Money {
 		if (currency != other.currency)
 			return false;
 		return true;
+	}
+
+	public Money convertTo(Currency currency, Converter converter) {
+		return new Money(amount * converter.getRate(this.currency, currency), currency);
 	}
 }

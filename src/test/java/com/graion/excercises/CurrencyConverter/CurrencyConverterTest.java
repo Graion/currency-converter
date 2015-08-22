@@ -16,18 +16,20 @@ public class CurrencyConverterTest extends TestCase
         return new TestSuite( CurrencyConverterTest.class );
     }
 
-    //(10ARS + 5USD) * 3 = 18USD
-    
-    public void testScalarProductPeso(){
+    // Exercise: (3 * 10 ARS) + 5 USD = 8USD
+    public void testScalarProductMoney(){
     	assertEquals(new Money(30, Currency.ARS), new Money(10, Currency.ARS).multiply(3));
-    }
-    
-    public void testScalarProductDollar(){
     	assertEquals(new Money(30, Currency.USD), new Money(10, Currency.USD).multiply(3));
     }
     
     public void testMoneyEquality(){
     	assertFalse(new Money(10, Currency.ARS).equals(new Money(10, Currency.USD)));
     	assertFalse(new Money(10, Currency.ARS).equals(new Money(30, Currency.ARS)));
+    }
+    
+    public void testMoneyConversion(){
+    	Converter converter = new ConverterMock();
+    	assertEquals(new Money(30, Currency.ARS), new Money(3, Currency.USD).convertTo(Currency.ARS, converter));
+    	assertEquals(new Money(3, Currency.USD), new Money(30, Currency.ARS).convertTo(Currency.USD, converter));
     }
 }
