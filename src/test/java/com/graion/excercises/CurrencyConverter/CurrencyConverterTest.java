@@ -17,7 +17,7 @@ public class CurrencyConverterTest extends TestCase
         return new TestSuite( CurrencyConverterTest.class );
     }
     
-    public void testPesoMultiplication () {
-    		assertEquals(new Peso(30), new Peso(10).times(3));
+    public void testMoneyMultiplication () {
+    		assertEquals(new Money(10, Currency.ARS).times(3), new Money(30, Currency.ARS));
     }
 }
