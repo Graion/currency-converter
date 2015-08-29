@@ -17,25 +17,56 @@ public class CurrencyConverterTest extends TestCase
         return new TestSuite( CurrencyConverterTest.class );
     }
     
+    public Money newPeso(double amount) {
+    	return new Money(amount, Currency.ARS);
+    }
+    
+    public Money newDollar(double amount) {
+    	return new Money(amount, Currency.USD);
+    }
+    
     public void testMoneyMultiplication () {
-    		assertEquals(new Money(10, Currency.ARS).times(3), new Money(30, Currency.ARS));
+    		assertEquals(newPeso(10).times(3), newPeso(30));
     }
     
     public void testMoneyEquality () {
-    		assertFalse(new Money(10, Currency.ARS).equals(new Money(10, Currency.USD)));
-    		assertFalse(new Money(10, Currency.ARS).equals(new Money(15, Currency.ARS)));
+    		assertFalse(newPeso(10).equals(newDollar(10)));
+    		assertFalse(newPeso(10).equals(newPeso(15)));
     }
     
     public void testMoneyConversion () {
     		Conversor conversor = new ConversorMock();
-    		assertEquals(new Money(10, Currency.ARS).convertTo(Currency.USD, conversor), new Money(1, Currency.USD));
-    		assertEquals(new Money(10, Currency.USD).convertTo(Currency.ARS, conversor), new Money(100, Currency.ARS));
+    		assertEquals(newPeso(10).convertTo(Currency.USD, conversor), newDollar(1));
+    		assertEquals(newDollar(10).convertTo(Currency.ARS, conversor), newPeso(100));
     }
     
     public void testMoneyAddition () {
-    		assertEquals(new Money(10, Currency.ARS).plus(new Money(10, Currency.ARS)),
-    				new Sum(new Money(10, Currency.ARS), new Money(10, Currency.ARS)));
-    		assertEquals(new Money(10, Currency.ARS).plus(new Money(10, Currency.USD)),
-    				new Sum(new Money(10, Currency.ARS), new Money(10, Currency.USD)));
+    		assertEquals(newPeso(10).plus(newPeso(10)),
+    				new Sum(newPeso(10), newPeso(10)));
+    		assertEquals(newPeso(10).plus(newDollar(10)),
+    				new Sum(newPeso(10), newDollar(10)));
+    }
+    
+    public void testMoneyMultipleAddition () {
+//    		// 10 ARS + 10 ARS + 10 USD
+//    		assertEquals(newPeso(10)
+//    			.plus(newPeso(10))
+//    			.plus(newDollar(10)),
+//    			new Sum(new Sum(newPeso(10), newPeso(10)),
+//    					newDollar(10));
+    }
+    
+    public void testSumConversion () {
+//    	Conversor conversor = new ConversorMock();
+//    	// 10 ARS + 5 USD = 6 USD (10:1 -> ARS:USD)
+//    	assertEquals(newPeso(10).plus(newDollar(5)).convertTo(Currency.USD, conversor), newDollar(6));
+    }
+    
+    public void testMultipleExpressionConversion () {
+//    	Conversor conversor = new ConversorMock();
+//    	// (10 ARS + 5 USD) + 5 USD = 11 USD (10:1 -> ARS:USD)
+//    	assertEquals(newPeso(10).plus(newDollar(5)).plus(newDollar(5)).convertTo(Currency.USD, conversor), newDollar(11));
+//    	// (10 ARS + 5 USD) + 3 = 18 USD (10:1 -> ARS:USD)
+//    	assertEquals(newPeso(10).plus(newDollar(5)).times(3).convertTo(Currency.USD, conversor), newDollar(18));
     }
 }
